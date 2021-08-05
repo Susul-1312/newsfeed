@@ -1,0 +1,17 @@
+{
+  "name": "newsfeed",
+  "version": "1.0.0",
+  "description": "A simple standalone newsfeed running on electron",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Susi",
+  "license": "Unlicense",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "electron": "^13.1.8",
+    "node-fetch": "^2.6.1"
+  }
+}

@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Index</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <!-- Tab links -->
+    <div class="tab">
+    </div>
+
+    <!-- Tab content -->
+    <div id="contentlist">
+    </div>
+
+    <script>
+      class Feed {
+        constructor(name) {
+          const button = document.createElement("button"); // create button to show and hide feed
+  				button.className = "tablinks";
+  				button.onclick = new Function(`openFeed(event, '${name}')`);
+  				button.innerText = name;
+
+          this.button = button;
+  				document.getElementsByClassName("tab")[0].append(this.button);
+
+  				const content = document.createElement("div"); // create content wrapper
+  				content.id = name;
+  				content.className = "tabcontent";
+
+          this.content = content;
+  				document.getElementById("contentlist").append(this.content);
+        }
+
+        appendContent(headline, article) {
+          if (!headline || !article) return;
+
+          const entry = document.createElement("div"); // create container for entry
+
+          // create elements for headline and content to later style them
+          const htmlHeadline = document.createElement("div");
+          htmlHeadline.innerText = headline;
+          htmlHeadline.className = "headline";
+
+          const htmlContent = document.createElement("div");
+          htmlContent.innerText = article;
+          htmlContent.className = "article";
+
+          // append all the things we just created
+          entry.append(htmlHeadline);
+          entry.append(htmlContent);
+
+          this.content.append(entry)
+        }
+
+        clear() {
+          this.content.innerHTML = "";
+        }
+      }
+
+      function openFeed(evt, tabName) {
+  			// Declare all variables
+  			var i, tabcontent, tablinks;
+
+  			// Get all elements with class="tabcontent" and hide them
+  			tabcontent = document.getElementsByClassName("tabcontent");
+  			for (i = 0; i < tabcontent.length; i++) {
+  				tabcontent[i].style.display = "none";
+  			}
+
+  			// Get all elements with class="tablinks" and remove the class "active"
+  			tablinks = document.getElementsByClassName("tablinks");
+  			for (i = 0; i < tablinks.length; i++) {
+  				tablinks[i].className = tablinks[i].className.replace(" active", "");
+  			}
+
+  			// Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      const tabs = new Map();
+      feedUpdate.handleUpdate((data) => {
+        /*
+        data is an object like this:
+        {
+          feed: "testfeeed",
+          entries: [
+            {
+              headline: "Some Headline"
+              content: "Some article",
+            }
+          ]
+        }
+        */
+
+        console.log(data);
+
+        if (!tabs.has(data.feed)) tabs.set(data.feed, new Feed(data.feed)); // if the feed doesnt exist, add a new one
+
+        feed = tabs.get(data.feed)
+
+        feed.clear()
+
+        data.entries.forEach((entry) => {
+          feed.appendContent(entry.headline, entry.content)
+        });
+
+      })
+    </script>
+
+	</body>
+</html>
