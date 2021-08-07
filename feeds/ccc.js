@@ -22,8 +22,6 @@ updateFeed = async () => {
 
       feed.push(feedpart)
       feed = feed.flat()
-
-      console.log(i)
     } catch (e) {
       console.error(e);
     }
