@@ -10,6 +10,11 @@ for (const file of feedFiles) {
 
 const { ipcMain, app, BrowserWindow } = require('electron');
 const path = require("path")
+
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit()
+})
+
 app.whenReady().then(() => {
   const win = new BrowserWindow({
     webPreferences: {
